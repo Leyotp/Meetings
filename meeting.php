@@ -1,12 +1,11 @@
 <?php
 include 'connection.php';
 
-function meeting_select($meeting_name, $start_time, $end_time, $users)
+function meeting_select($meeting_name, $start_time, $end_time, $users, $conn)
 {
 
-    $conn = OpenCon();
+    
 
-    $ScheduleValidator = false;
     foreach ($users as $user) {
         $query = "SELECT * FROM meetings WHERE user_id IN ( $user)  
             AND (start_time BETWEEN '$start_time' AND '$end_time' OR end_time BETWEEN '$start_time' AND '$end_time')";
@@ -17,12 +16,12 @@ function meeting_select($meeting_name, $start_time, $end_time, $users)
     }
 }
 
-function meeting_insert($meeting_name, $start_time, $end_time, $users)
+function meeting_insert($meeting_name, $start_time, $end_time, $users, $conn)
 {
 
-    $conn = OpenCon();
+   
 
-    $ScheduleValidator = false;
+    
     foreach ($users as $user) {
         $query = "INSERT INTO meetings (user_id, start_time, end_time, meeting_name) VALUES ($user, '$start_time', '$end_time', '$meeting_name')";
         $res = mysqli_query($conn, $query);
@@ -38,7 +37,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
     $ScheduleValidator = false;
     foreach ($users as $user) {
 
-        $r = meeting_select($meeting_name, $start_time, $end_time, $users);
+        $r = meeting_select($meeting_name, $start_time, $end_time, $users, $conn);
 
         for ($i = 0; $i < count($users); $i++) {
 
@@ -53,7 +52,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
 
     if (!$ScheduleValidator) {
         foreach ($users as $user) {
-            $r = meeting_insert($meeting_name, $start_time, $end_time, $users);
+            $r = meeting_insert($meeting_name, $start_time, $end_time, $users, $conn);
             echo "The meeting $meeting_name has been successfully booked for $user<br><br>";
         }
 
