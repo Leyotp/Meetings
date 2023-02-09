@@ -6,16 +6,15 @@ function meeting_select($meeting_name, $start_time, $end_time, $users)
 
     $conn = OpenCon();
 
-        $ScheduleValidator = false;
-        foreach ($users as $user) 
-        {
-            $query = "SELECT * FROM meetings WHERE user_id IN ( $user)  
+    $ScheduleValidator = false;
+    foreach ($users as $user) {
+        $query = "SELECT * FROM meetings WHERE user_id IN ( $user)  
             AND (start_time BETWEEN '$start_time' AND '$end_time' OR end_time BETWEEN '$start_time' AND '$end_time')";
 
-            $res = mysqli_query($conn, $query);
+        $res = mysqli_query($conn, $query);
 
-            return $res;
-        }       
+        return $res;
+    }
 }
 
 function meeting_insert($meeting_name, $start_time, $end_time, $users)
@@ -23,13 +22,12 @@ function meeting_insert($meeting_name, $start_time, $end_time, $users)
 
     $conn = OpenCon();
 
-        $ScheduleValidator = false;
-        foreach ($users as $user) 
-        {
-            $query = "INSERT INTO meetings (user_id, start_time, end_time, meeting_name) VALUES ($user, '$start_time', '$end_time', '$meeting_name')";
-            $res = mysqli_query($conn, $query);
-            return $res;
-        }      
+    $ScheduleValidator = false;
+    foreach ($users as $user) {
+        $query = "INSERT INTO meetings (user_id, start_time, end_time, meeting_name) VALUES ($user, '$start_time', '$end_time', '$meeting_name')";
+        $res = mysqli_query($conn, $query);
+        return $res;
+    }
 }
 
 
@@ -38,8 +36,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
     $conn = OpenCon();
 
     $ScheduleValidator = false;
-    foreach ($users as $user) 
-    {
+    foreach ($users as $user) {
 
         $r = meeting_select($meeting_name, $start_time, $end_time, $users);
 
@@ -48,7 +45,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
             if (mysqli_num_rows($r) > 0) {
                 $ScheduleValidator = true;
                 $row = mysqli_fetch_assoc($r);
-                echo "User $user has a conflicting meeting: " . $row['meeting_name'] ."<br><br>";
+                echo "User $user has a conflicting meeting: " . $row['meeting_name'] . "<br><br>";
                 break;
             }
         }
@@ -63,7 +60,6 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
     } else {
         echo "The meeting has not been booked.\n";
     }
-
 
     mysqli_close($conn);
 }
