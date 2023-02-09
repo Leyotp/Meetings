@@ -28,7 +28,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
         }
     }
 
-    // If no conflicts, insert the meeting into the database
+   
     if (!$ScheduleValidator)
      {
         foreach ($users as $user) 
@@ -46,7 +46,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
         echo "The meeting has not been booked.\n";
     }
 
-    // Close the database connection
+    
     mysqli_close($conn);
 }
 $name = "test7";
