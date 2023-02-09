@@ -12,9 +12,7 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
     {
         $query = "SELECT * FROM meetings WHERE user_id=$user AND (start_time BETWEEN '$start_time' AND '$end_time' OR end_time BETWEEN '$start_time' AND '$end_time')";
         $res = mysqli_query($conn, $query);
-
-        
-            
+             
         for($i = 0;$i < count($users);$i++)    
         { 
 
@@ -34,8 +32,8 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
         foreach ($users as $user) 
         {
             $query = "INSERT INTO meetings (user_id, start_time, end_time, meeting_name) VALUES ($user, '$start_time', '$end_time', '$meeting_name')";
-            mysqli_query($conn, $query);
-            echo "The meeting $meeting_name has been successfully booked for $user<br>";
+            $res = mysqli_query($conn, $query);
+            echo "The meeting $meeting_name has been successfully booked for $user<br><br>";
         }
         
     }
@@ -49,9 +47,9 @@ function schedule_meeting($meeting_name, $start_time, $end_time, $users)
     
     mysqli_close($conn);
 }
-$name = "test7";
-$start =  '2022-09-27 05:00:00'; 
-$end = '2022-09-27 06:00:00';
+$name = "test8";
+$start =  '2022-09-27 04:00:00'; 
+$end = '2022-09-27 04:20:00';
 $users = [1,2,3,4];
 
 schedule_meeting($name, $start, $end, $users);
